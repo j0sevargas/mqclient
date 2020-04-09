@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title>IBM MQ Web Client</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <style>
+        .messageBox {
+            display: block;
+            white-space: pre;
+            border-style: dashed;
+            border-width: 3px;
+            border-color: black;
+            overflow: scroll;
+            height: 100px;
+            margin: 10px;
+            width: 100%;
+        }
+
+        footer {
+            font-size: x-small;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-group">
+            <input type="text" class="form-control" id="label" placeholder="Nombre de este mensaje">
+            <input type="text" class="form-control" id="toQueue" placeholder="Cola Destino">
+            <input type="text" class="form-control" id="queueManager" placeholder="Gestor de Colas">
+            <input type="text" class="form-control" id="host" placeholder="Host">
+            <input type="text" class="form-control" id="port" placeholder="Puerto" value="1414">
+            <input type="text" class="form-control" id="channel" placeholder="Canal" value="SYSTEM.DEF.SVRCONN">
+            <input type="text" class="form-control" id="replyTo" placeholder="ReplyTo">
+            <input type="text" class="form-control" id="timeout" placeholder="Timeout" value="5000">
+            <textarea id="message" class="form-control messageBox" placeholder="Mensaje"></textarea>
+        </div>
+        <div class="form-group">
+            <button type="button" class="btn btn-primary" onclick="sendMessage();">
+                Enviar Mensaje
+                <div class="spinner-border spinner-border-sm" role="status" id="sendingMessageSpinner"
+                    style="display:none">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </button>
+        </div>
+        <div class="form-group">
+            <textarea id="response" class="form-control messageBox" placeholder="Respuesta"></textarea>
+        </div>
+    </div>
+    <hr />
+    <div class="form-group">
+        <select id="favorites"></select>
+        <input type="button" value="Cargar favoritos" onclick="loadFavorites()">
+        <input type="button" value="Seleccionar favorito" onclick="getThisFavorite()">
+        <input type="button" value="Agregar favorito" onclick="addSingleFavorite()">
+        <input type="button" value="Actualizar favorito seleccionado" onclick="updateThisFavorite()">
+        <input type="button" value="Borrar Todos" onclick="removeAll()">
+        <input type="button" value="Guardar favoritos" onclick="saveFavorites()">
+    </div>
+    <footer>Para solucionar todos los problemas relacionados a MQ, Hecho por Jose Vargas en Abril del 2020</footer>
+    </div>
+    <script src="mq.js"></script>
+</body>
+
+</html>
