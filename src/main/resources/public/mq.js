@@ -2,14 +2,15 @@
 
 let favorites = new Array();
 
-function getFavoriteString({label, message}) {
-    return `${label} - ${message.substring(0,12)}`;
+function getFavoriteString({label, message, toQueue}) {
+    return `${label} - ${toQueue} - ${atob(message).substring(0,20)}`;
 }
 
 function updateFavoriteCombo(){
     const selectElement = document.getElementById("favorites");
-    for (let i = 0; i < selectElement.options.length; i++) {
-        selectElement.remove(i);        
+    const comboSize = selectElement.options.length;
+    for (let i = 0; i < comboSize; i++) {
+        selectElement.remove(0);        
     }
     favorites.forEach (fav => addSingleFavoriteToCombo(fav));
 }
@@ -28,27 +29,19 @@ function addSingleFavoriteToCombo(obj){
 }
 
 function getThisFavorite(){
-
     const index = document.getElementById("favorites").selectedIndex;
-
     const obj = favorites[index];
-
     if (obj){
-
         setFormInfo(obj);
     }
 }
 
 function removeAll(){
-    
     favorites = new Array();
-
     updateFavoriteCombo();
-
 }
 
 function updateThisFavorite(){
-
     const obj = getFormInfo();
     const index = document.getElementById("favorites").selectedIndex;
     favorites[index] = obj;
@@ -67,6 +60,7 @@ function getFormInfo() {
     obj.port = document.getElementById("port").value;
     obj.channel = document.getElementById("channel").value;
     obj.timeout = document.getElementById("timeout").value;
+    obj.response = document.getElementById("response").value;
     return obj;
 }
 
@@ -80,6 +74,7 @@ function setFormInfo(obj) {
     document.getElementById("port").value = obj.port;
     document.getElementById("channel").value = obj.channel;
     document.getElementById("timeout").value = obj.timeout;
+    document.getElementById("response").value = obj.response;
 }
 
 function saveFavorites() {
@@ -99,6 +94,8 @@ function loadFavorites() {
 function sendMessage() {
 
     const obj = getFormInfo();
+
+    document.getElementById("response").value = "";
     document.getElementById("sendingMessageSpinner").style.display = "inherit";
 
     fetch('/message', {
