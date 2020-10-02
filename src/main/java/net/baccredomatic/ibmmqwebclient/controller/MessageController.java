@@ -14,11 +14,22 @@ import net.baccredomatic.ibmmqwebclient.service.EncodingService;
 @RestController
 public class MessageController {
 
-    @Autowired
+    
     private MessageService service;
 
     @Autowired
+    public void setService(MessageService service) {
+        this.service = service;
+    }
+
     private EncodingService encoder;
+
+    @Autowired
+    public void setEncoder(EncodingService encoder) {
+        this.encoder = encoder;
+    }
+
+
 
     @PostMapping(path = "/message")
 
