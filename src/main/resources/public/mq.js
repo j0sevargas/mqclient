@@ -3,7 +3,7 @@
 let favorites = new Array();
 
 function getFavoriteString({label, message, toQueue}) {
-    return `${label} - ${toQueue} - ${atob(message).substring(0,20)}`;
+    return `${label} - ${toQueue} - ${atob(message).substring(20,50)}`;
 }
 
 function updateFavoriteCombo(){
@@ -60,7 +60,7 @@ function getFormInfo() {
     obj.port = document.getElementById("port").value;
     obj.channel = document.getElementById("channel").value;
     obj.timeout = document.getElementById("timeout").value;
-    obj.response = document.getElementById("response").value;
+    obj.response = btoa(document.getElementById("response").value);
     return obj;
 }
 
@@ -74,7 +74,7 @@ function setFormInfo(obj) {
     document.getElementById("port").value = obj.port;
     document.getElementById("channel").value = obj.channel;
     document.getElementById("timeout").value = obj.timeout;
-    document.getElementById("response").value = obj.response;
+    document.getElementById("response").value = (obj.response)?atob(obj.message):"";
 }
 
 function saveFavorites() {
@@ -92,13 +92,21 @@ function loadFavorites() {
 
 
 function sendMessage() {
+    fetchInfo();
+}
+
+function getMessage() {
+    fetchInfo('/get','sendingMessageSpinner2');
+}
+
+function fetchInfo(theUri = '/message',spinnerID = "sendingMessageSpinner"){
 
     const obj = getFormInfo();
 
     document.getElementById("response").value = "";
-    document.getElementById("sendingMessageSpinner").style.display = "inherit";
+    document.getElementById(spinnerID).style.display = "inherit";
 
-    fetch('/message', {
+    fetch(theUri, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -109,12 +117,12 @@ function sendMessage() {
         .then((data) => {
             console.log('Success: ' + atob(data.message), data);
             document.getElementById("response").value = atob(data.message);
-            document.getElementById("sendingMessageSpinner").style.display = "none";
+            document.getElementById(spinnerID).style.display = "none";
 
         })
         .catch((error) => {
             console.error('Error:', error);
-            document.getElementById("sendingMessageSpinner").style.display = "none";
+            document.getElementById(spinnerID).style.display = "none";
         });
 }
 

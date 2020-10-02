@@ -14,14 +14,24 @@ import net.baccredomatic.ibmmqwebclient.service.EncodingService;
 @RestController
 public class MessageController {
 
-    @Autowired
+    
     private MessageService service;
 
     @Autowired
+    public void setService(MessageService service) {
+        this.service = service;
+    }
+
     private EncodingService encoder;
 
-    @PostMapping(path = "/message")
+    @Autowired
+    public void setEncoder(EncodingService encoder) {
+        this.encoder = encoder;
+    }
 
+
+    
+    @PostMapping(path = "/message")
     public ResponseEntity<Message> send(@RequestBody Message message) {
 
         ResponseEntity<Message> response;
@@ -38,4 +48,20 @@ public class MessageController {
 
     }
 
+    @PostMapping(path = "/get")
+    public ResponseEntity<Message> getMessage(@RequestBody Message message) {
+
+        ResponseEntity<Message> response;
+        
+        try {
+            // No hace decode porque no se espera una peticion del usuario. Solo encode de lo obtenido
+            response = new ResponseEntity<>(encoder.encode(service.get(message)), HttpStatus.OK);
+
+        } catch (Exception e) {
+
+            response = new ResponseEntity<>(new Message(e + " " + e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return response;
+    }
 }

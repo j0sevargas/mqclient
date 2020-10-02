@@ -28,9 +28,11 @@ target/
 build/
 
 ### VS Code ###
-.vscode/
+
 mvnw
 mvnw.cmd
 .mvn/wrapper/maven-wrapper.jar
 .mvn/wrapper/maven-wrapper.properties
 .mvn/wrapper/MavenWrapperDownloader.java
+mqjms.log*
+.DS_Store

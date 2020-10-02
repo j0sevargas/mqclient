@@ -6,4 +6,6 @@ public interface MessageService {
 
     public Message send(Message message) throws Exception;
 
+    public Message get(Message message) throws Exception;
+
 }

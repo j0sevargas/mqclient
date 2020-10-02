@@ -1,15 +1,18 @@
 package net.baccredomatic.ibmmqwebclient.service;
 
+
 import javax.jms.Connection;
 import javax.jms.JMSException;
 
 import javax.jms.MessageConsumer;
 import javax.jms.MessageProducer;
+
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
 import com.ibm.mq.jms.MQConnectionFactory;
 import com.ibm.mq.jms.MQQueue;
+
 import com.ibm.msg.client.wmq.WMQConstants;
 import com.ibm.msg.client.wmq.compat.jms.internal.JMSC;
 
@@ -73,16 +76,13 @@ public class IBMMQMessageService implements MessageService {
                 responseMessage = messageConsumer.receive(message.getTimeout());
 
                 if (responseMessage == null) {
-
                     message.setMessage("El mensaje de respuesta es nulo! Timeout");
-
                 } else {
-
                     message.setId(responseMessage.getJMSMessageID());
                     message.setCorrelId(responseMessage.getJMSCorrelationID());
-                    if (responseMessage instanceof TextMessage){
+                    if (responseMessage instanceof TextMessage) {
                         message.setMessage(((TextMessage) responseMessage).getText());
-                    }  else {
+                    } else {
                         message.setMessage(responseMessage.toString());
                     }
                 }
@@ -109,24 +109,87 @@ public class IBMMQMessageService implements MessageService {
         }
 
         time = System.currentTimeMillis() - time;
-        
-        message.setTotalTime(time);
 
+        message.setTotalTime(time);
 
         return message;
 
     }
 
     private MQConnectionFactory getQCF(Message message) throws JMSException {
-
         MQConnectionFactory factory = new MQConnectionFactory();
         factory.setTransportType(WMQConstants.WMQ_CM_CLIENT);
         factory.setHostName(message.getHost());
         factory.setPort(message.getPort());
         factory.setQueueManager(message.getQueueManager());
         factory.setChannel(message.getChannel());
-
         return factory;
+    }
+
+    @Override
+    public Message get(Message message) throws Exception {
+
+        MQConnectionFactory factory = null;
+
+        Connection connection = null;
+
+        Session session = null;
+
+        MQQueue queue = null;
+
+        MessageConsumer consumer = null;
+
+        javax.jms.Message obtainedMessage = null;
+
+        long time = System.currentTimeMillis();
+
+        try {
+
+            factory = getQCF(message);
+            connection = factory.createConnection();
+            connection.start();
+
+            session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+
+            queue = new MQQueue(message.getToQueue());
+
+            consumer = session.createConsumer(queue);
+
+            obtainedMessage = consumer.receive(message.getTimeout());
+
+            if (obtainedMessage == null) {
+
+                message.setMessage("El mensaje de respuesta es nulo! Timeout");
+
+            } else {
+                message.setId(obtainedMessage.getJMSMessageID());
+
+                if (obtainedMessage instanceof TextMessage) {
+                    message.setMessage(((TextMessage) obtainedMessage).getText());
+                } else {
+                    message.setMessage(obtainedMessage.toString());
+                }
+            }
+
+        } catch (Exception e) {
+
+            message.setMessage(e + "  " + e.getMessage());
+
+        } finally {
+
+            if (session != null) {
+                session.close();
+            }
+            if (consumer != null) {
+                consumer.close();
+            }
+        }
+
+        time = System.currentTimeMillis() - time;
+
+        message.setTotalTime(time);
+
+        return message;
     }
 
 }
