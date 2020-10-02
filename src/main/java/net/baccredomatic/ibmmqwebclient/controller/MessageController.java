@@ -30,9 +30,8 @@ public class MessageController {
     }
 
 
-
+    
     @PostMapping(path = "/message")
-
     public ResponseEntity<Message> send(@RequestBody Message message) {
 
         ResponseEntity<Message> response;
@@ -49,4 +48,20 @@ public class MessageController {
 
     }
 
+    @PostMapping(path = "/get")
+    public ResponseEntity<Message> getMessage(@RequestBody Message message) {
+
+        ResponseEntity<Message> response;
+        
+        try {
+            // No hace decode porque no se espera una peticion del usuario. Solo encode de lo obtenido
+            response = new ResponseEntity<>(encoder.encode(service.get(message)), HttpStatus.OK);
+
+        } catch (Exception e) {
+
+            response = new ResponseEntity<>(new Message(e + " " + e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return response;
+    }
 }

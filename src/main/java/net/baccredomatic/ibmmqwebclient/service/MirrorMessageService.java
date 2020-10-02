@@ -11,4 +11,9 @@ public class MirrorMessageService implements MessageService{
         return message;
     }
 
+    @Override
+    public Message get(Message message) throws Exception {
+        return message;
+    }
+
 }
