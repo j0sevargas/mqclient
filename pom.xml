@@ -5,14 +5,16 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.2.6.RELEASE</version>
+		<version>1.5.6.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
+	<packaging>war</packaging>
 	<groupId>net.baccredomatic</groupId>
 	<artifactId>ibmmqwebclient</artifactId>
-	<version>1.0.0</version>
-	<name>demo</name>
-	<description>Demo project for Spring Boot</description>
+	<version>1.1.0</version>
+	<name>ibmmqwebclient</name>
+	<description>IBM MQ Web Client</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -25,38 +27,48 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
 
-
-		<!-- https://mvnrepository.com/artifact/com.ibm.mq/com.ibm.mq.allclient -->
 		<dependency>
 			<groupId>com.ibm.mq</groupId>
 			<artifactId>com.ibm.mq.allclient</artifactId>
-			<version>9.2.0.0</version>
+			<version>9.2.1.0</version>
 		</dependency>
-
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-
 			<exclusions>
 				<exclusion>
-					<groupId>org.junit.vintage</groupId>
-					<artifactId>junit-vintage-engine</artifactId>
+				  <groupId>junit</groupId>
+				  <artifactId>junit</artifactId>
 				</exclusion>
-
-				<exclusion>
-					<groupId>com.vaadin.external.google</groupId>
-					<artifactId>android-json</artifactId>
-				</exclusion>
-
-			</exclusions>
-
-
+			  </exclusions>
 		</dependency>
-	</dependencies>
 
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.0.1</version>
+			<scope>test</scope>
+		  </dependency>
+
+		  <!-- <dependency>
+			  <groupId>org.springframework.boot</groupId>
+			  <artifactId>spring-boot-starter-validation</artifactId>
+		  </dependency>  -->
+	  
+		<!-- <dependency>
+			  <groupId>org.springframework.boot</groupId>
+			  <artifactId>spring-boot-starter-jdbc</artifactId>
+		  </dependency>
+		   -->
+	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
