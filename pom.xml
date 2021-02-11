@@ -8,11 +8,10 @@
 		<version>1.5.6.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-
-	<packaging>war</packaging>
 	<groupId>net.baccredomatic</groupId>
 	<artifactId>ibmmqwebclient</artifactId>
-	<version>1.1.0</version>
+	<version>1.1.2</version>
+	<packaging>war</packaging>
 	<name>ibmmqwebclient</name>
 	<description>IBM MQ Web Client</description>
 
@@ -36,7 +35,7 @@
 		<dependency>
 			<groupId>com.ibm.mq</groupId>
 			<artifactId>com.ibm.mq.allclient</artifactId>
-			<version>9.2.1.0</version>
+			<version>9.1.0.0</version>
 		</dependency>
 
 		<dependency>
@@ -58,24 +57,24 @@
 			<scope>test</scope>
 		  </dependency>
 
-		  <!-- <dependency>
-			  <groupId>org.springframework.boot</groupId>
-			  <artifactId>spring-boot-starter-validation</artifactId>
-		  </dependency>  -->
-	  
-		<!-- <dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-validation</artifactId>
+			</dependency>
+	
+		<dependency>
 			  <groupId>org.springframework.boot</groupId>
 			  <artifactId>spring-boot-starter-jdbc</artifactId>
 		  </dependency>
-		   -->
+		  
 	</dependencies>
 	<build>
-		<plugins>
+		<!-- <plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-		</plugins>
+		</plugins> -->
 	</build>
 
 </project>

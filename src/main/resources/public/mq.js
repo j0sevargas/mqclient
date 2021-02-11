@@ -96,10 +96,10 @@ function sendMessage() {
 }
 
 function getMessage() {
-    fetchInfo('/mq/get','sendingMessageSpinner2');
+    fetchInfo('get','sendingMessageSpinner2');
 }
 
-function fetchInfo(theUri = '/mq/message',spinnerID = "sendingMessageSpinner"){
+function fetchInfo(theUri = 'message',spinnerID = "sendingMessageSpinner"){
 
     const obj = getFormInfo();
 
